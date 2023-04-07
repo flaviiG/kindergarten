@@ -14,4 +14,9 @@ public class ClientController {
     {
         return clientService.getAll();
     }
+
+    public void add(Client c)
+    {
+        clientService.add(c);
+    }
 }

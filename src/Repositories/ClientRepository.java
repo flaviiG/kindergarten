@@ -15,4 +15,12 @@ public class ClientRepository {
     {
         return clients;
     }
+
+    public void add(Client c)
+    {
+        int i=0;
+        while(clients[i]!= null)
+        { i++; }
+        clients[i]=c;
+    }
 }

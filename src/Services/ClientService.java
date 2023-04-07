@@ -15,4 +15,9 @@ public class ClientService {
     {
         return clientRepository.getAll();
     }
+
+    public void add(Client c)
+    {
+        clientRepository.add(c);
+    }
 }

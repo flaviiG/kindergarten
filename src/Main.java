@@ -1,7 +1,6 @@
 import Controllers.*;
-import Models.Client;
-import Models.Copil;
-import Models.FisaMedicala;
+import Models.*;
+import Repositories.ContractRepository;
 
 import java.text.ParseException;
 import java.time.LocalDate;
@@ -13,6 +12,7 @@ public class Main {
 
         ChildController childController= new ChildController();
         ClientController clientController = new ClientController();
+        ContractRepository contractRepository = new ContractRepository();
 
         Scanner sc = new Scanner(System.in);
         String option;
@@ -26,12 +26,23 @@ public class Main {
             System.out.println("7. See medical reports");
             System.out.println("8. Create contract");
             System.out.println("9. Contract payment");
+            System.out.println("10. See all contracts");
             option = sc.nextLine();
 
             switch(Integer.parseInt(option))
             {
                 case 1:
                 {
+                    String nume = sc.nextLine();
+                    String prenume = sc.nextLine();
+                    String telefon = sc.nextLine();
+                    String email = sc.nextLine();
+                    String adresa = sc.nextLine();
+
+                    Client c = new Client(nume,prenume,telefon,email,adresa);
+
+                    clientController.add(c);
+
                     break;
                 }
                 case 2:
@@ -99,6 +110,15 @@ public class Main {
                 }
                 case 8:
                 {
+                    String denumire = sc.nextLine();
+                    float pret = Float.parseFloat(sc.nextLine());
+                    float pret_total = Float.parseFloat(sc.nextLine());
+                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+                    LocalDate data_inc;
+                    LocalDate data_sf;
+                    data_inc = LocalDate.parse(sc.nextLine(), formatter);
+                    data_sf = LocalDate.parse(sc.nextLine(), formatter);
+
                     System.out.println("Select client:");
                     Client[] clients = clientController.getAll();
                     for(int i=0;i<clients.length;i++) {
@@ -117,7 +137,35 @@ public class Main {
                     }
                     int child_index = Integer.parseInt(sc.nextLine());
 
+                    Contract c = new Contract(denumire, pret, clients[client_index], children[child_index], pret_total, data_inc, data_sf, null);
+                    contractRepository.add(c);
 
+                    break;
+                }
+                case 9:
+                {
+                    Contract[] contracts = contractRepository.getAll();
+                    System.out.println("Select contract:");
+                    for(int i=0;i<contracts.length;i++) {
+                        if (contracts[i] != null) {
+                            System.out.println(i + ". " + contracts[i]);
+                        }
+                    }
+                    int index = Integer.parseInt(sc.nextLine());
+                    String[] methods = {"Cash", "Card"};
+                    System.out.println("1 - Cash       2 - Card");
+                    int methods_index = Integer.parseInt(sc.nextLine());
+                    contracts[index].setPlata(new Plata(methods[methods_index - 1], "Accepted", LocalDate.now()));
+                    break;
+                }
+                case 10:
+                {
+                    Contract[] contracts = contractRepository.getAll();
+                    for(int i=0;i<contracts.length;i++) {
+                        if (contracts[i] != null) {
+                            System.out.println(contracts[i].toString());
+                        }
+                    }
 
                     break;
                 }

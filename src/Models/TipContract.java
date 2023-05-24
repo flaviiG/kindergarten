@@ -8,4 +8,5 @@ public class TipContract {
         this.denumire = denumire;
         this.pret = pret;
     }
+    public TipContract(){}
 }

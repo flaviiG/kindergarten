@@ -50,7 +50,8 @@ public class ChildRepository implements CRUDRepository<Copil> {
             pstmnt.setString(6,entity.getPrenume());
             pstmnt.setDate(7,Date.valueOf(entity.getData_nastere()));
 
-            return pstmnt.execute();
+            pstmnt.executeUpdate();
+            return true;
         }
         catch(Exception e)
         {

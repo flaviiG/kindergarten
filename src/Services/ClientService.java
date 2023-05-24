@@ -19,7 +19,7 @@ public class ClientService {
 
     public boolean add(Client c)
     {
-        c.setId(idGenerator.getNextCode());
+        c.setId(idGenerator.getNextCode()*1000);
         return clientRepository.add(c);
     }
 

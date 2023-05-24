@@ -15,9 +15,9 @@ public class ClientController {
         return clientService.getAll();
     }
 
-    public void add(Client c)
+    public boolean add(Client c)
     {
-        clientService.add(c);
+        return clientService.add(c);
     }
 
     public boolean update(String id, Client c)

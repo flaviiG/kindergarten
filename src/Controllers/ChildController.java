@@ -10,9 +10,9 @@ public class ChildController {
     {
         this.childService = new ChildService();
     }
-    public void add(Copil c)
+    public boolean add(Copil c)
     {
-        childService.add(c);
+        return childService.add(c);
     }
 
     public Copil[] getAll()

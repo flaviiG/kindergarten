@@ -45,7 +45,9 @@ public class Educator {
     public String getAdresa() {
         return adresa;
     }
-
+    public int getSalariu() {
+        return salariu;
+    }
     public String toString()
     {
         return nume + " " + prenume;

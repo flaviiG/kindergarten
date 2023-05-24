@@ -9,10 +9,10 @@ public class ChildService {
     private IdGenerator idGenerator = IdGenerator.getInstance();
     private ChildRepository childRepository = ChildRepository.getInstance();
 
-    public void add(Copil c)
+    public boolean add(Copil c)
     {
         c.setId("C" + idGenerator.getNextCode().toString());
-        childRepository.add(c);
+        return childRepository.add(c);
     }
 
     public Copil[] getAll()

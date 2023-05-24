@@ -2,24 +2,138 @@ package Repositories;
 
 import Models.Contract;
 
-public class ContractRepository {
-    Contract [] contracts;
+import java.sql.*;
+import java.time.Period;
 
-    public  ContractRepository()
-    {
-        this.contracts = new Contract[100];
+public class ContractRepository implements CRUDRepository<Contract>{
+    private static ContractRepository INSTANCE;
+    Connection conn;
+
+    private ContractRepository(){
+        try {
+            String url = "jdbc:oracle:thin:system/admin@localhost:1521:xe";
+            Class.forName("oracle.jdbc.OracleDriver");
+            Connection conn = DriverManager.getConnection(url);
+
+            if (conn != null) {
+                System.out.println("Connected");
+                this.conn = conn;
+            }
+            else {
+                System.out.println("Not connected");
+            }
+        }
+        catch(Exception e){
+            System.out.println(e.toString());
+        }
     }
 
-    public void add(Contract c)
-    {
-        int i=0;
-        while(contracts[i]!= null)
-        { i++; }
-        contracts[i]=c;
+    public static ContractRepository getInstance() {
+        if (INSTANCE == null) {
+            INSTANCE = new ContractRepository();
+        }
+        return INSTANCE;
     }
 
-    public Contract[] getAll()
-    {
-        return contracts;
+    @Override
+    public boolean add(Contract entity) {
+
+        try{
+            String get_price_per_month = "SELECT pret_pe_luna FROM TIP_CONTRACT WHERE tip_contract_id = ?";
+            PreparedStatement pstmnt = conn.prepareStatement(get_price_per_month);
+            pstmnt.setString(1,entity.getTip_contract_id());
+            ResultSet rs = pstmnt.executeQuery();
+            rs.next();
+            int price_per_month = rs.getInt(1);
+            pstmnt.close();
+            String insert = "INSERT INTO CONTRACT VALUES (?,?,?,?,?,?)";
+            pstmnt = conn.prepareStatement(insert);
+            pstmnt.setInt(1,entity.getId_contract());
+            pstmnt.setString(2,entity.getTip_contract_id());
+            pstmnt.setInt(3,entity.getId_client());
+
+            Period period = Period.between(entity.getData_incepere_contract(), entity.getData_sfarsit_contract());
+            long months = period.toTotalMonths();
+            float total_price = (int)months*price_per_month;
+
+            pstmnt.setFloat(4,total_price);
+            pstmnt.setDate(5,Date.valueOf(entity.getData_incepere_contract()));
+            pstmnt.setDate(6,Date.valueOf(entity.getData_sfarsit_contract()));
+
+            pstmnt.executeUpdate();
+            return true;
+        }
+        catch(Exception e)
+        {
+            System.out.println(e);
+            return false;
+        }
     }
+
+    @Override
+    public Contract[] getAll() {
+        try {
+            Statement stmt = conn.createStatement();
+            String sql = "SELECT * FROM CONTRACT";
+            ResultSet rs = stmt.executeQuery(sql);
+            ResultSetMetaData rsmd = rs.getMetaData();
+            int columnsNumber = rsmd.getColumnCount();
+            while (rs.next()) {
+                for (int i = 1; i <= columnsNumber; i++) {
+                    if (i > 1) System.out.print(",  ");
+                    String columnValue = rs.getString(i);
+                    System.out.print(columnValue + " ");
+                }
+                System.out.println("");
+            }
+
+        }
+        catch(Exception e) {
+            System.out.println(e);
+        }
+        return null;
+    }
+
+    @Override
+    public boolean update(String id, Contract entity) {
+        try{
+            String sql = "UPDATE CONTRACT SET tip_contract_id = ? , id_client = ?, pret = ? , data_incepere_contract = ? , data_sfarsit_contract = ? WHERE id_contract = ?";
+            PreparedStatement pstmnt = conn.prepareStatement(sql);
+
+            pstmnt.setString(1,entity.getTip_contract_id());
+            pstmnt.setInt(2,entity.getId_client());
+            pstmnt.setFloat(3,entity.getPret_total());
+            pstmnt.setDate(4,Date.valueOf(entity.getData_incepere_contract()));
+            pstmnt.setDate(5,Date.valueOf(entity.getData_sfarsit_contract()));
+            int int_id=Integer.parseInt(id);
+            pstmnt.setInt(6,int_id);
+
+            pstmnt.executeUpdate();
+            return true;
+
+        }
+        catch(Exception e)
+        {
+            System.out.println(e.toString());
+            return false;
+        }
+    }
+
+    @Override
+    public boolean delete(String id) {
+        try{
+            String sql = "DELETE FROM CONTRACT WHERE id_contract = ?";
+            PreparedStatement pstmnt = conn.prepareStatement(sql);
+            int int_id=Integer.parseInt(id);
+            pstmnt.setInt(1,int_id);
+            pstmnt.executeUpdate();
+            return true;
+        }
+        catch(Exception e)
+        {
+            System.out.println(e.toString());
+            return false;
+        }
+    }
+
 }

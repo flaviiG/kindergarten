@@ -17,6 +17,34 @@ public class Client {
         this.adresa = adresa;
     }
 
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public String getNume() {
+        return nume;
+    }
+
+    public String getPrenume() {
+        return prenume;
+    }
+
+    public String getTelefon() {
+        return telefon;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public String getAdresa() {
+        return adresa;
+    }
+
     public String toString()
     {
         return nume + " " + prenume;

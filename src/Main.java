@@ -17,8 +17,8 @@ public class Main {
         Scanner sc = new Scanner(System.in);
         String option;
         do{
-            System.out.println("1. Add Client");
-            System.out.println("2. Add Child");
+            System.out.println("1. Client CRUD");
+            System.out.println("2. Child CRUD");
             System.out.println("3. Create contract");
             System.out.println("4. See all children");
             System.out.println("5. See all clients");
@@ -33,31 +33,139 @@ public class Main {
             {
                 case 1:
                 {
-                    String nume = sc.nextLine();
-                    String prenume = sc.nextLine();
-                    String telefon = sc.nextLine();
-                    String email = sc.nextLine();
-                    String adresa = sc.nextLine();
+                    System.out.println("1. Add Client");
+                    System.out.println("2. Get all clients");
+                    System.out.println("3. Update Client");
+                    System.out.println("4. Delete Client");
+                    option = sc.nextLine();
+                    switch(Integer.parseInt(option))
+                    {
+                        case 1:
+                        {
+                            String nume = sc.nextLine();
+                            String prenume = sc.nextLine();
+                            String telefon = sc.nextLine();
+                            String email = sc.nextLine();
+                            String adresa = sc.nextLine();
 
-                    Client c = new Client(nume,prenume,telefon,email,adresa);
+                            Client c = new Client(nume,prenume,telefon,email,adresa);
 
-                    clientController.add(c);
+                            clientController.add(c);
 
+                            break;
+                        }
+                        case 2:
+                        {
+                            clientController.getAll();
+                            break;
+                        }
+                        case 3:
+                        {
+                            System.out.println("Select the Client id that you want to update: ");
+                            String id = sc.nextLine();
+                            System.out.println("Update the new client: ");
+                            System.out.println("Nume: ");
+                            String nume = sc.nextLine();
+                            System.out.println("Prenume: ");
+                            String prenume = sc.nextLine();
+                            System.out.println("Telefon: ");
+                            String telefon = sc.nextLine();
+                            System.out.println("Email: ");
+                            String email = sc.nextLine();
+                            System.out.println("Adresa: ");
+                            String adresa = sc.nextLine();
+
+                            Client c = new Client(nume,prenume, telefon, email, adresa);
+
+                            clientController.update(id, c);
+
+                            break;
+                        }
+                        case 4:
+                        {
+                            System.out.println("Select the Client id that you want to delete: ");
+                            String id = sc.nextLine();
+
+                            clientController.delete(id);
+                            break;
+                        }
+                    }
                     break;
+
                 }
                 case 2:
                 {
-                    System.out.println("Nume:");
-                    String nume = sc.nextLine();
-                    System.out.println("Prenume");
-                    String prenume = sc.nextLine();
-                    System.out.println("Data nasterii");
-                    LocalDate data;
-                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-                    data = LocalDate.parse(sc.nextLine(), formatter);
-                    Copil c = new Copil(nume, prenume, data,new FisaMedicala());
-                    childController.add(c);
+                    System.out.println("1. Add Child");
+                    System.out.println("2. Get all children");
+                    System.out.println("3. Update Child");
+                    System.out.println("4. Delete Child");
+                    option = sc.nextLine();
+                    switch(Integer.parseInt(option))
+                    {
+                        case 1:
+                        {
+                            System.out.println("Nume: ");
+                            String nume = sc.nextLine();
+                            System.out.println("Prenume: ");
+                            String prenume = sc.nextLine();
+                            System.out.println("Data nasterii");
+                            LocalDate data;
+                            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+                            data = LocalDate.parse(sc.nextLine(), formatter);
+                            System.out.println("Id-ul educatorului: ");
+                            int id_educator = Integer.parseInt(sc.nextLine());
+                            System.out.println("Id-ul grupei: ");
+                            String id_grupa = sc.nextLine();
+                            System.out.println("Id-ul contractului: ");
+                            int id_contract = Integer.parseInt(sc.nextLine());
+
+                            Copil c = new Copil(nume,prenume, data, new FisaMedicala());
+
+                            c.setId_educator(id_educator);
+                            c.setId_contract(id_contract);
+                            c.setId_grupa(id_grupa);
+
+                            childController.add(c);
+                            break;
+                        }
+
+                        case 2:
+                        {
+                            childController.getAll();
+                            break;
+                        }
+
+                        case 3:
+                        {
+                            System.out.println("Select the Child id that you want to update: ");
+                            String id = sc.nextLine();
+                            System.out.println("Update the new child: ");
+                            System.out.println("Nume: ");
+                            String nume = sc.nextLine();
+                            System.out.println("Prenume: ");
+                            String prenume = sc.nextLine();
+                            System.out.println("Data nasterii");
+                            LocalDate data;
+                            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+                            data = LocalDate.parse(sc.nextLine(), formatter);
+
+                            Copil c = new Copil(nume,prenume, data, new FisaMedicala());
+
+                            childController.update(id, c);
+
+                            break;
+                        }
+                        case 4:
+                        {
+                            System.out.println("Select the Child id that you want to delete: ");
+                            String id = sc.nextLine();
+
+                            childController.delete(id);
+                            break;
+                        }
+                    }
                     break;
+
                 }
                 case 4:
                 {
@@ -74,6 +182,11 @@ public class Main {
                             System.out.println(children[i].toString());
                         }
                     }
+                    break;
+                }
+                case 5:
+                {
+                    clientController.getAll();
                     break;
                 }
                 case 6:

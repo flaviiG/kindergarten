@@ -19,4 +19,14 @@ public class ClientController {
     {
         clientService.add(c);
     }
+
+    public boolean update(String id, Client c)
+    {
+        return clientService.update(id, c);
+    }
+
+    public boolean delete(String id)
+    {
+        return clientService.delete(id);
+    }
 }

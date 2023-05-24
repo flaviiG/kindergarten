@@ -19,4 +19,14 @@ public class ChildController {
     {
         return childService.getAll();
     }
+
+    public boolean update(String id, Copil c)
+    {
+        return childService.update(id, c);
+    }
+
+    public boolean delete(String id)
+    {
+        return childService.delete(id);
+    }
 }

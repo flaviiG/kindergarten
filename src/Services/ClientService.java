@@ -2,13 +2,14 @@ package Services;
 
 import Models.Client;
 import Repositories.ClientRepository;
+import Utils.IdGenerator;
 
 public class ClientService {
-    ClientRepository clientRepository;
+    private IdGenerator idGenerator = IdGenerator.getInstance();
+    private ClientRepository clientRepository = ClientRepository.getInstance();
 
     public ClientService()
     {
-        clientRepository = new ClientRepository();
     }
 
     public Client[] getAll()
@@ -16,8 +17,19 @@ public class ClientService {
         return clientRepository.getAll();
     }
 
-    public void add(Client c)
+    public boolean add(Client c)
     {
-        clientRepository.add(c);
+        c.setId(idGenerator.getNextCode());
+        return clientRepository.add(c);
     }
+
+    public boolean update(String id, Client c) {
+        return clientRepository.update(id, c);
+    }
+
+    public boolean delete(String  id)
+    {
+        return clientRepository.delete(id);
+    }
+
 }

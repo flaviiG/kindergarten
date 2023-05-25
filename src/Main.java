@@ -2,10 +2,6 @@ import Controllers.*;
 import Models.*;
 import Utils.Operations_Logger;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.FileReader;
-import java.io.FileWriter;
 import java.text.ParseException;
 import java.time.LocalDate;
 import java.time.Period;
@@ -50,14 +46,8 @@ public class Main {
 
                             Client c = new Client(nume,prenume,telefon,email,adresa);
 
-                            if(clientController.add(c) == true)
-                            {
-                                Operations_Logger.logOperation("Client adaugat", "da");
-                            }
-                            else
-                            {
-                                Operations_Logger.logOperation("Client adaugat", "nu");
-                            }
+                            Operations_Logger.logOperation("Client adaugat", clientController.add(c));
+
 
                             break;
                         }
@@ -70,7 +60,7 @@ public class Main {
                                 if(clients[i]!=null)
                                     System.out.println(clients[i]);
                             }
-                            Operations_Logger.logOperation("Clienti afisati", "da");
+                            Operations_Logger.logOperation("Clienti afisati", true);
 
 
                             break;
@@ -93,15 +83,8 @@ public class Main {
 
                             Client c = new Client(nume,prenume, telefon, email, adresa);
 
+                            Operations_Logger.logOperation("Client updatat", clientController.update(id, c));
 
-                            if(clientController.update(id, c) == true)
-                            {
-                                Operations_Logger.logOperation("Client updatat", "da");
-                            }
-                            else
-                            {
-                                Operations_Logger.logOperation("Clienti updatat", "nu");
-                            }
                             break;
                         }
                         case 4:
@@ -109,15 +92,8 @@ public class Main {
                             System.out.println("Select the Client id that you want to delete: ");
                             String id = sc.nextLine();
 
+                            Operations_Logger.logOperation("Client sters", clientController.delete(id));
 
-                            if(clientController.delete(id) == true)
-                            {
-                                Operations_Logger.logOperation("Client sters", "da");
-                            }
-                            else
-                            {
-                                Operations_Logger.logOperation("Clienti sters", "nu");
-                            }
                             break;
                         }
                     }
@@ -156,22 +132,15 @@ public class Main {
                             c.setId_contract(id_contract);
                             c.setId_grupa(id_grupa);
 
+                            Operations_Logger.logOperation("Copil adaugat", childController.add(c));
 
-                            if(childController.add(c) == true)
-                            {
-                                Operations_Logger.logOperation("Copil adaugat", "da");
-                            }
-                            else
-                            {
-                                Operations_Logger.logOperation("Copil adaugat", "nu");
-                            }
                             break;
                         }
 
                         case 2:
                         {
                             childController.getAll();
-                            Operations_Logger.logOperation("Copii afisati", "da");
+                            Operations_Logger.logOperation("Copii afisati", true);
 
                             break;
                         }
@@ -192,15 +161,8 @@ public class Main {
 
                             Copil c = new Copil(nume,prenume, data, new FisaMedicala());
 
+                            Operations_Logger.logOperation("Copil updatat", childController.update(id, c));
 
-                            if(childController.update(id, c) == true)
-                            {
-                                Operations_Logger.logOperation("Copil updatat", "da");
-                            }
-                            else
-                            {
-                                Operations_Logger.logOperation("Copil updatat", "nu");
-                            }
 
                             break;
                         }
@@ -209,14 +171,8 @@ public class Main {
                             System.out.println("Select the Child id that you want to delete: ");
                             String id = sc.nextLine();
 
-                            if(childController.delete(id) == true)
-                            {
-                                Operations_Logger.logOperation("Copil sters", "da");
-                            }
-                            else
-                            {
-                                Operations_Logger.logOperation("Copil sters", "nu");
-                            }
+                            Operations_Logger.logOperation("Copil sters", childController.delete(id));
+
                             break;
                         }
                     }
@@ -249,14 +205,8 @@ public class Main {
 
                             Educator e = new Educator(nume,prenume, telefon, email, adresa, salariu);
 
-                            if(educatorController.add(e) == true)
-                            {
-                                Operations_Logger.logOperation("Educator adaugat", "da");
-                            }
-                            else
-                            {
-                                Operations_Logger.logOperation("Educator adaugat", "nu");
-                            }
+                            Operations_Logger.logOperation("Educator adaugat", educatorController.add(e));
+
 
                             break;
                         }
@@ -269,7 +219,7 @@ public class Main {
                             {
                                 System.out.println(educators.get(i));
                             }
-                            Operations_Logger.logOperation("Educatori afisati", "da");
+                            Operations_Logger.logOperation("Educatori afisati", true);
 
                             break;
                         }
@@ -294,14 +244,7 @@ public class Main {
 
                             Educator e = new Educator(nume,prenume, telefon, email, adresa, salariu);
 
-                            if(educatorController.update(id, e) == true)
-                            {
-                                Operations_Logger.logOperation("Educator updatat", "da");
-                            }
-                            else
-                            {
-                                Operations_Logger.logOperation("Educator updatat", "nu");
-                            }
+                            Operations_Logger.logOperation("Educator updatat", educatorController.update(id, e));
 
                             break;
                         }
@@ -310,15 +253,8 @@ public class Main {
                             System.out.println("Select the Educator id that you want to delete: ");
                             String id = sc.nextLine();
 
+                            Operations_Logger.logOperation("Educator sters", educatorController.delete(id));
 
-                            if(educatorController.delete(id) == true)
-                            {
-                                Operations_Logger.logOperation("Educator sters", "da");
-                            }
-                            else
-                            {
-                                Operations_Logger.logOperation("Educator sters", "nu");
-                            }
                             break;
                         }
                     }
@@ -351,15 +287,8 @@ public class Main {
 
                             Contract c = new Contract(tip_contract,id_client, data_incepere, data_sfarsit, 0);
 
+                            Operations_Logger.logOperation("Contract adaugat", contractController.add(c));
 
-                            if(contractController.add(c) == true)
-                            {
-                                Operations_Logger.logOperation("Contract adaugat", "da");
-                            }
-                            else
-                            {
-                                Operations_Logger.logOperation("Contract adaugat", "nu");
-                            }
                             break;
                         }
 
@@ -377,7 +306,7 @@ public class Main {
                                 System.out.println("\nContracte cu program full: ");
                                 contracte_full.stream().forEach(System.out::println);
                                 System.out.println("");
-                                Operations_Logger.logOperation("Contracte afisate", "da");
+                                Operations_Logger.logOperation("Contracte afisate", true);
                             }
 
                             break;
@@ -402,15 +331,7 @@ public class Main {
 
                             Contract c = new Contract(tip_contract,id_client, data_incepere, data_sfarsit, 0);
 
-
-                            if(contractController.update(id, c) == true)
-                            {
-                                Operations_Logger.logOperation("Contract updatat", "da");
-                            }
-                            else
-                            {
-                                Operations_Logger.logOperation("Contract updatat", "nu");
-                            }
+                            Operations_Logger.logOperation("Contract updatat", contractController.update(id, c));
 
                             break;
                         }
@@ -419,15 +340,8 @@ public class Main {
                             System.out.println("Select the Contract id that you want to delete: ");
                             String id = sc.nextLine();
 
+                            Operations_Logger.logOperation("Contract sters", contractController.delete(id));
 
-                            if(contractController.delete(id) == true)
-                            {
-                                Operations_Logger.logOperation("Contract sters", "da");
-                            }
-                            else
-                            {
-                                Operations_Logger.logOperation("Contract sters", "nu");
-                            }
                             break;
                         }
                     }
@@ -435,11 +349,6 @@ public class Main {
 
                 }
 
-//                case 5:
-//                {
-//                    clientController.getAll();
-//                    break;
-//                }
 //                case 6:
 //                {
 //                    System.out.println("Select child:");
@@ -457,7 +366,8 @@ public class Main {
 //                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 //                    data = LocalDate.parse(sc.nextLine(), formatter);
 //                    children[index].setMedicalReport(greutate, medic, data);
-//
+//                    medicalController.add(print(sorted(matrice_desfasurata)));
+//                      childController.addMedical(id_fisa);
 //                    break;
 //                }
 //                case 7:
@@ -536,23 +446,6 @@ public class Main {
             }
         }
         while(Integer.parseInt(option)!=0);
-
-//        try {
-//            BufferedReader reader = new BufferedReader(new FileReader("logs.txt"));
-//            BufferedWriter writer = new BufferedWriter(new FileWriter("logs.csv"));
-//            String line;
-//            while ((line = reader.readLine()) != null) {
-//                String[] fields = line.split("\\s+"); // Split by whitespace (adjust as per your TXT format)
-//                String csvLine = String.join(",", fields); // Join fields with comma as CSV format
-//                writer.write(csvLine);
-//                writer.newLine();
-//                System.out.println("Conversion completed successfully.");
-//            }
-//
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//        option=sc.nextLine();
 
     }
 }

@@ -4,6 +4,9 @@ import Models.Contract;
 import Repositories.ContractRepository;
 import Utils.IdGenerator;
 
+import java.util.HashMap;
+import java.util.SortedSet;
+
 public class ContractService {
     private IdGenerator idGenerator = IdGenerator.getInstance();
     private ContractRepository contractRepository = ContractRepository.getInstance();
@@ -12,7 +15,7 @@ public class ContractService {
     {
     }
 
-    public Contract[] getAll()
+    public HashMap<String, SortedSet<Contract>> getAll()
     {
         return contractRepository.getAll();
     }

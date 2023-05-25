@@ -4,6 +4,8 @@ import Models.Educator;
 import Services.EducatorService;
 import Services.EducatorService;
 
+import java.util.List;
+
 public class EducatorController {
     EducatorService educatorService;
     public EducatorController()
@@ -11,7 +13,7 @@ public class EducatorController {
         this.educatorService = new EducatorService();
     }
 
-    public Educator[] getAll()
+    public List<Educator> getAll()
     {
         return educatorService.getAll();
     }

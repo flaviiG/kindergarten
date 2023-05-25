@@ -10,7 +10,7 @@ import java.text.ParseException;
 import java.time.LocalDate;
 import java.time.Period;
 import java.time.format.DateTimeFormatter;
-import java.util.Scanner;
+import java.util.*;
 
 public class Main {
     public static void main(String[] args) throws ParseException {
@@ -63,7 +63,13 @@ public class Main {
                         }
                         case 2:
                         {
-                            clientController.getAll();
+                            Client[] clients = new Client[101];
+                            clients = clientController.getAll();
+                            for(int i=0;i<101;i++)
+                            {
+                                if(clients[i]!=null)
+                                    System.out.println(clients[i]);
+                            }
                             Operations_Logger.logOperation("Clienti afisati", "da");
 
 
@@ -257,7 +263,12 @@ public class Main {
 
                         case 2:
                         {
-                            educatorController.getAll();
+                            List<Educator> educators = new ArrayList<Educator>();
+                            educators = educatorController.getAll();
+                            for(int i=0; i<educators.size();i++)
+                            {
+                                System.out.println(educators.get(i));
+                            }
                             Operations_Logger.logOperation("Educatori afisati", "da");
 
                             break;
@@ -354,8 +365,20 @@ public class Main {
 
                         case 2:
                         {
-                            contractController.getAll();
-                            Operations_Logger.logOperation("Contracte afisate", "da");
+                            HashMap<String, SortedSet<Contract>> contracts = new HashMap<String,SortedSet<Contract>>();
+                            SortedSet<Contract> contracte_semi = new TreeSet<>();
+                            SortedSet<Contract> contracte_full = new TreeSet<>();
+                            contracts = contractController.getAll();
+                            if(contracts != null) {
+                                contracte_semi = contracts.get("Program Semi");
+                                contracte_full = contracts.get("Program Full");
+                                System.out.println("Contracte cu program semi: ");
+                                contracte_semi.stream().forEach(System.out::println);
+                                System.out.println("\nContracte cu program full: ");
+                                contracte_full.stream().forEach(System.out::println);
+                                System.out.println("");
+                                Operations_Logger.logOperation("Contracte afisate", "da");
+                            }
 
                             break;
                         }

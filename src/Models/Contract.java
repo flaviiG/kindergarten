@@ -3,6 +3,7 @@ package Models;
 import java.time.LocalDate;
 import java.util.Date;
 import java.util.Locale;
+import java.util.Objects;
 
 import Models.Plata;
 
@@ -21,6 +22,15 @@ public class Contract extends TipContract {
         this.pret_total = pret_total;
         this.data_incepere_contract = data_incepere_contract;
         this.data_sfarsit_contract = data_sfarsit_contract;
+    }
+
+    public Contract(Contract c)
+    {
+        this.tip_contract_id = c.tip_contract_id;
+        this.id_client = c.id_client;
+        this.pret_total = c.pret_total;
+        this.data_incepere_contract = c.data_incepere_contract;
+        this.data_sfarsit_contract = c.data_sfarsit_contract;
     }
 
     public int getId_contract() {
@@ -74,8 +84,35 @@ public class Contract extends TipContract {
 //        this.plata = plata;
 //    }
 //
-//    public String toString()
-//    {
-//        return "Clientul: " + client.toString() + "\n" + "Copilul: " + copil.toString() + "\n" + "Pret total: " + pret_total;
-//    }
+    public String toString()
+    {
+        return "Clientul: " + id_client + " " + "Pret total: " + pret_total + " " +"Data incepere: " + data_incepere_contract.toString() + " " + "Data sfarsit: " + data_sfarsit_contract ;
+    }
+
+
+    public int compareTo(Contract c)
+    {
+        if (pret_total > c.pret_total) {
+            return 1;
+        }
+        else if (pret_total < c.pret_total) {
+            return -1;
+        }
+        else {
+            return 0;
+        }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Contract contract = (Contract) o;
+        return id_contract == contract.id_contract;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id_contract);
+    }
 }

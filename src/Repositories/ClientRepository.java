@@ -62,19 +62,26 @@ public class ClientRepository implements CRUDRepository<Client> {
     @Override
     public Client[] getAll() {
         try {
+            Client[] clients = new Client[101];
+            int k=0;
             Statement stmt = conn.createStatement();
             String sql = "SELECT * FROM CLIENT";
             ResultSet rs = stmt.executeQuery(sql);
             ResultSetMetaData rsmd = rs.getMetaData();
             int columnsNumber = rsmd.getColumnCount();
             while (rs.next()) {
-                for (int i = 1; i <= columnsNumber; i++) {
-                    if (i > 1) System.out.print(",  ");
-                    String columnValue = rs.getString(i);
-                    System.out.print(columnValue + " ");
-                }
-                System.out.println("");
+                Client c = new Client(rs.getString(2),rs.getString(3),rs.getString(5),rs.getString(6),rs.getString(4));
+                c.setId(rs.getInt(1));
+//                for (int i = 1; i <= columnsNumber; i++) {
+//                    if (i > 1) System.out.print(",  ");
+//                    String columnValue = rs.getString(i);
+//                    System.out.print(columnValue + " ");
+//                }
+//                System.out.println("");
+                clients[k] = new Client(c);
+                k++;
             }
+            return clients;
 
         }
         catch(Exception e) {

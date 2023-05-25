@@ -3,9 +3,13 @@ package Repositories;
 import Models.Contract;
 
 import java.sql.*;
+import java.sql.Date;
+import java.time.LocalDate;
 import java.time.Period;
+import java.time.ZoneId;
+import java.util.*;
 
-public class ContractRepository implements CRUDRepository<Contract>{
+public class ContractRepository{
     private static ContractRepository INSTANCE;
     Connection conn;
 
@@ -35,7 +39,7 @@ public class ContractRepository implements CRUDRepository<Contract>{
         return INSTANCE;
     }
 
-    @Override
+//    @Override
     public boolean add(Contract entity) {
 
         try{
@@ -70,31 +74,43 @@ public class ContractRepository implements CRUDRepository<Contract>{
         }
     }
 
-    @Override
-    public Contract[] getAll() {
+//    @Override
+    public HashMap<String,SortedSet<Contract>> getAll() {
         try {
+            Comparator<Contract> conditie = (o1, o2) -> o1.compareTo(o2);
+            HashMap<String, SortedSet<Contract>> contracts = new HashMap<String,SortedSet<Contract>>();
+            SortedSet<Contract> semi = new TreeSet<Contract>(conditie);
+            SortedSet<Contract> full = new TreeSet<Contract>(conditie);
             Statement stmt = conn.createStatement();
-            String sql = "SELECT * FROM CONTRACT";
+            String sql = "SELECT * FROM CONTRACT WHERE tip_contract_id = 'S3' ";
             ResultSet rs = stmt.executeQuery(sql);
-            ResultSetMetaData rsmd = rs.getMetaData();
-            int columnsNumber = rsmd.getColumnCount();
             while (rs.next()) {
-                for (int i = 1; i <= columnsNumber; i++) {
-                    if (i > 1) System.out.print(",  ");
-                    String columnValue = rs.getString(i);
-                    System.out.print(columnValue + " ");
-                }
-                System.out.println("");
+                Contract c = new Contract(rs.getString(2),rs.getInt(3), rs.getDate(5).toLocalDate(), rs.getDate(6).toLocalDate(), rs.getInt(4));
+                c.setId_contract(rs.getInt(1));
+                semi.add(new Contract(c));
             }
-
+            rs.close();
+            stmt.close();
+            stmt = conn.createStatement();
+            sql = "SELECT * FROM CONTRACT WHERE tip_contract_id = 'F3' ";
+            rs = stmt.executeQuery(sql);
+            while (rs.next()) {
+                Contract c = new Contract(rs.getString(2),rs.getInt(3), rs.getDate(5).toLocalDate(), rs.getDate(6).toLocalDate(), rs.getInt(4));
+                c.setId_contract(rs.getInt(1));
+                full.add(new Contract(c));
+            }
+            contracts.put("Program Semi", semi);
+            contracts.put("Program Full", full);
+            return contracts;
         }
         catch(Exception e) {
             System.out.println(e);
+            return null;
         }
-        return null;
+
     }
 
-    @Override
+//    @Override
     public boolean update(String id, Contract entity) {
         try{
             String sql = "UPDATE CONTRACT SET tip_contract_id = ? , id_client = ?, pret = ? , data_incepere_contract = ? , data_sfarsit_contract = ? WHERE id_contract = ?";
@@ -119,7 +135,7 @@ public class ContractRepository implements CRUDRepository<Contract>{
         }
     }
 
-    @Override
+//    @Override
     public boolean delete(String id) {
         try{
             String sql = "DELETE FROM CONTRACT WHERE id_contract = ?";

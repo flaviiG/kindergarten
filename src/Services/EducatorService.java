@@ -4,6 +4,8 @@ import Models.Educator;
 import Repositories.EducatorRepository;
 import Utils.IdGenerator;
 
+import java.util.List;
+
 public class EducatorService {
     private IdGenerator idGenerator = IdGenerator.getInstance();
     private EducatorRepository educatorRepository = EducatorRepository.getInstance();
@@ -12,7 +14,7 @@ public class EducatorService {
     {
     }
 
-    public Educator[] getAll()
+    public List<Educator> getAll()
     {
         return educatorRepository.getAll();
     }

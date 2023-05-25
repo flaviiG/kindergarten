@@ -16,6 +16,15 @@ public class Client {
         this.email = email;
         this.adresa = adresa;
     }
+    public Client(Client c)
+    {
+        this.id = c.id;
+        this.nume=c.nume;
+        this.prenume=c.prenume;
+        this.telefon = c.telefon;
+        this.email = c.email;
+        this.adresa = c.adresa;
+    }
 
     public void setId(int id) {
         this.id = id;
@@ -47,6 +56,6 @@ public class Client {
 
     public String toString()
     {
-        return nume + " " + prenume;
+        return "Nume: " + nume + " Prenume: " + prenume + " Telefon: " + telefon + " Email: " + email + " Adresa: " + adresa;
     }
 }

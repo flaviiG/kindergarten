@@ -19,6 +19,16 @@ public class Educator {
         this.salariu = salariu;
     }
 
+    public Educator(Educator e) {
+        this.id = e.id;
+        this.nume = e.nume;
+        this.prenume = e.prenume;
+        this.telefon = e.telefon;
+        this.email = e.email;
+        this.adresa = e.adresa;
+        this.salariu = e.salariu;
+    }
+
     public void setId(int id) {
         this.id = id;
     }
@@ -50,6 +60,6 @@ public class Educator {
     }
     public String toString()
     {
-        return nume + " " + prenume;
+        return "Nume: " + nume + " Prenume: " + prenume + " Telefon: " + telefon + " Email: " + email + " Adresa: " + adresa + " Salariu: " + salariu;
     }
 }

@@ -3,8 +3,10 @@ package Repositories;
 import Models.Educator;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
-public class EducatorRepository implements CRUDRepository<Educator> {
+public class EducatorRepository {
     private static EducatorRepository INSTANCE;
     Connection conn;
 
@@ -34,7 +36,7 @@ public class EducatorRepository implements CRUDRepository<Educator> {
         return INSTANCE;
     }
 
-    @Override
+//    @Override
     public boolean add(Educator entity) {
 
         try{
@@ -59,31 +61,30 @@ public class EducatorRepository implements CRUDRepository<Educator> {
         }
     }
 
-    @Override
-    public Educator[] getAll() {
+//    @Override
+    public List<Educator> getAll() {
         try {
+            List<Educator> educators = new ArrayList<Educator>();
             Statement stmt = conn.createStatement();
             String sql = "SELECT * FROM EDUCATOR";
             ResultSet rs = stmt.executeQuery(sql);
             ResultSetMetaData rsmd = rs.getMetaData();
             int columnsNumber = rsmd.getColumnCount();
             while (rs.next()) {
-                for (int i = 1; i <= columnsNumber; i++) {
-                    if (i > 1) System.out.print(",  ");
-                    String columnValue = rs.getString(i);
-                    System.out.print(columnValue + " ");
-                }
-                System.out.println("");
+                Educator e = new Educator(rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(6), rs.getString(5), rs.getInt(7));
+                e.setId(rs.getInt(1));
+                educators.add(new Educator(e));
             }
+            return educators;
 
         }
         catch(Exception e) {
             System.out.println(e);
+            return null;
         }
-        return null;
     }
 
-    @Override
+//    @Override
     public boolean update(String id, Educator entity) {
         try{
             String sql = "UPDATE EDUCATOR SET nume = ? , prenume = ?, telefon = ? , email = ? , adresa = ?, salariu = ? WHERE id_educator = ?";
@@ -110,7 +111,7 @@ public class EducatorRepository implements CRUDRepository<Educator> {
 
     }
 
-    @Override
+ //   @Override
     public boolean delete(String id) {
         try{
             String sql = "DELETE FROM EDUCATOR WHERE id_educator = ?";

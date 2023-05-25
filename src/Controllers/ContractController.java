@@ -3,6 +3,9 @@ package Controllers;
 import Models.Contract;
 import Services.ContractService;
 
+import java.util.HashMap;
+import java.util.SortedSet;
+
 public class ContractController {
     ContractService contractService;
     public ContractController()
@@ -10,7 +13,7 @@ public class ContractController {
         this.contractService = new ContractService();
     }
 
-    public Contract[] getAll()
+    public HashMap<String, SortedSet<Contract>> getAll()
     {
         return contractService.getAll();
     }
